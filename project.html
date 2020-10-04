@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Streaming video processing with GPU.js</title>
+    <script src="js/gpu-browser.min.js"></script>
+    <link href="css/main.css" rel="stylesheet">
+</head>
+<body>
+    <div id="wrapper">
+        <div id="top">
+            <div id="topLogo">
+                <img src="images/logo.png" width="24" height="24">
+            </div>
+            <div id="topTitle">
+                <h1>Streaming video processing with GPU.js</h1>
+            </div>
+        </div>
+        <div id="bottom">
+            <div id="controlPanel">
+                <h2>Control Panel</h2>
+                <div id="controls">
+                    <label><input type="checkbox" id="enable-gpu" onclick="toggleDiv()" checked /> Enable GPU</label><br>
+                    <div id="gpu-controls">
+                        <label><input type="checkbox" id="horizontal-flip" /> Horizontal Flip</label><br>
+                        <label><input type="checkbox" id="vertical-flip" /> Vertical Flip</label><br>
+                        <label><input type="checkbox" id="sharpen" /> Sharpen</label><br>
+                        <label><input type="checkbox" id="gaussian-blur" /> Gaussian Blur 3x3</label><br>
+                        <label><input type="checkbox" id="invert-colours" /> Invert Colours</label><br>
+                        <label><input type="checkbox" id="grayscale-colours" /> Grayscale Colours</label><br>
+                        <label><input type="checkbox" id="edge-detection" /> Edge Detection</label><br>
+                    </div>
+                    <div id="cpu-controls">
+                        <label><input type="radio" name="filter" value="no-filter" checked /> No Filter</label><br>
+                        <label><input type="radio" name="filter" value="horizontal-flip" /> Horizontal Flip</label><br>
+                        <label><input type="radio" name="filter" value="vertical-flip" /> Vertical Flip</label><br>
+                        <label><input type="radio" name="filter" value="sharpen" /> Sharpen</label><br>
+                        <label><input type="radio" name="filter" value="gaussian-blur" /> Gaussian Blur 3x3</label><br>
+                        <label><input type="radio" name="filter" value="invert-colours" /> Invert Colours</label><br>
+                        <label><input type="radio" name="filter" value="grayscale-colours" /> Grayscale Colours</label><br>
+                        <label><input type="radio" name="filter" value="edge-detection" /> Edge Detection</label><br>                        
+                    </div>
+                    
+                </div>
+            </div>
+            <div id="videoPanel">
+                <div id="canvas-parent" class="grid-item">
+                    <h2>
+                        <span>FPS: </span><span id="fps-number">0</span>
+                        <span>Runtime Per Frame (ms): </span><span id="time-taken"></span>
+                    </h2>
+                </div>
+                <video hidden id="video" width="640" height="480"></video>
+                <canvas hidden id="videoCanvas" width="640" height="480"></canvas>
+                <script src="js/videosetup.js"></script>
+            </div>
+        </div>
+    </div>
+    <script src="js/kernels.js"></script>
+</body>
+</html>

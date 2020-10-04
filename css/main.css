@@ -1,0 +1,95 @@
+h1 {
+    font-weight: normal;
+    color: #ffffff;
+    font-size: 1em;
+    margin: 0px;
+    padding: 0px
+}
+h2 {
+    font-weight: normal;
+    color: #0088cc;
+    font-size: 1em;
+    margin: 0px;
+    padding: 5px;
+    text-align: center
+}
+h3 {
+    font-family: 'Courgette', cursive;
+    font-weight: normal;
+    color: #d9d9d9;
+    font-size: 1em;
+    margin: 0px;
+    padding: 0px;
+    display: inline-block
+}
+body {
+    background-color: #0d0d0d;
+    margin: 0px;
+    font-family: Arial
+}
+#wrapper {
+    margin: auto;
+    width: 1000px
+}
+#top {            
+    background-color: #262626;
+    margin: 4px 0px 4px 0px;           
+    padding: 2px 0px 2px 0px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #333333;
+    text-align: center
+}
+#bottom {
+    margin-bottom: 5px;
+}
+#topLogo{
+    display: inline-block;
+    vertical-align: middle
+}
+#topTitle {
+    display: inline-block;
+    vertical-align: middle; 
+    padding-left: 5px
+}
+#controlPanel {
+    display: inline-block;
+    vertical-align: top;
+    height: 530px;
+    width: 240px;
+    margin-right: 0px;
+    background-color: #262626;
+    padding-left: 5px;
+    color: #ffffff
+}
+#controls {
+    font-size: 0.9em;
+}
+#gpu-controls {
+}
+#cpu-controls {
+    display: none;
+}
+#videoPanel {
+    text-align: center;
+    display: inline-block;
+    height: 530px;
+    width: 750px;
+    margin-left: 0px;
+    background-color: #262626;
+}
+label {
+    display: inline-block;
+    margin: 0px 0px 5px 10px;
+}
+#submit-button {
+    margin-left: 20px;
+}
+#fps-number {
+    display: inline-block;
+    width: 30px;
+}
+#time-taken {
+    display: inline-block;
+    width: 30px;
+}
