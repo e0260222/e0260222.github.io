@@ -93,3 +93,6 @@ label {
     display: inline-block;
     width: 30px;
 }
+.indent {
+    padding-left: 30px;
+}

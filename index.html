@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Streaming video processing with GPU.js</title>
+    <title>Streaming Video Processing with GPU.js</title>
     <script src="js/gpu-browser.min.js"></script>
     <link href="css/main.css" rel="stylesheet">
 </head>
@@ -25,20 +25,28 @@
                         <label><input type="checkbox" id="horizontal-flip" /> Horizontal Flip</label><br>
                         <label><input type="checkbox" id="vertical-flip" /> Vertical Flip</label><br>
                         <label><input type="checkbox" id="sharpen" /> Sharpen</label><br>
-                        <label><input type="checkbox" id="gaussian-blur" /> Gaussian Blur 3x3</label><br>
+                        <label><input type="checkbox" id="gaussian-blur" /> Gaussian Blur (5 x 5)</label><br>
                         <label><input type="checkbox" id="invert-colours" /> Invert Colours</label><br>
                         <label><input type="checkbox" id="grayscale-colours" /> Grayscale Colours</label><br>
-                        <label><input type="checkbox" id="edge-detection" /> Edge Detection</label><br>
+                        <label><input type="checkbox" id="edge-detection" /> Edge Detection (Sobel)</label><br>
+                        <label><input type="checkbox" id="encrypt" /> Encrypt (Hill Cipher)</label><br>
+                        <label><input type="radio" name="encryption-key" value="ekey1" checked /> Key 1</label>
+                        <label><input type="radio" name="encryption-key" value="ekey2" /> Key 2</label>
+                        <label><input type="radio" name="encryption-key" value="ekey3" /> Key 3</label><br>
+                        <label><input type="checkbox" id="decrypt" /> Decrypt (Hill Cipher)</label><br>
+                        <label><input type="radio" name="decryption-key" value="dkey1" checked /> Key 1</label>
+                        <label><input type="radio" name="decryption-key" value="dkey2" /> Key 2</label>
+                        <label><input type="radio" name="decryption-key" value="dkey3" /> Key 3</label>
                     </div>
                     <div id="cpu-controls">
                         <label><input type="radio" name="filter" value="no-filter" checked /> No Filter</label><br>
                         <label><input type="radio" name="filter" value="horizontal-flip" /> Horizontal Flip</label><br>
                         <label><input type="radio" name="filter" value="vertical-flip" /> Vertical Flip</label><br>
                         <label><input type="radio" name="filter" value="sharpen" /> Sharpen</label><br>
-                        <label><input type="radio" name="filter" value="gaussian-blur" /> Gaussian Blur 3x3</label><br>
+                        <label><input type="radio" name="filter" value="gaussian-blur" /> Gaussian Blur (5 x 5)</label><br>
                         <label><input type="radio" name="filter" value="invert-colours" /> Invert Colours</label><br>
                         <label><input type="radio" name="filter" value="grayscale-colours" /> Grayscale Colours</label><br>
-                        <label><input type="radio" name="filter" value="edge-detection" /> Edge Detection</label><br>                        
+                        <label><input type="radio" name="filter" value="edge-detection" /> Edge Detection (Sobel)</label><br>                        
                     </div>
                     
                 </div>
