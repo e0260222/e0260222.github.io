@@ -29,10 +29,12 @@ function setup() {
     const gpu = new GPU({
         mode: enableGpu.checked ? 'gpu' : 'cpu'
     });
-
+    
+    // Kernel for performing horizontal flip
     const horizontalFlipKernal = gpu.createKernel(function (frame, isEnabled) {
         const pixel = frame[this.thread.y][this.thread.x];
         if (isEnabled) {
+            //Performs pixel swapping
             const pixel2 = frame[this.thread.y][640 - 1 - this.thread.x];   
             this.color(pixel2.r, pixel2.g, pixel2.b, pixel2.a);
         } else {
@@ -45,9 +47,11 @@ function setup() {
         tactic: 'precision'
     });
     
-     const verticalFlipKernal = gpu.createKernel(function (frame, isEnabled) {
+    // Kernel for performing vertical flip
+    const verticalFlipKernal = gpu.createKernel(function (frame, isEnabled) {
         const pixel = frame[this.thread.y][this.thread.x];
         if (isEnabled) {
+            //Performs pixel swapping
             const pixel2 = frame[480 - 1 - this.thread.y][this.thread.x];   
             this.color(pixel2.r, pixel2.g, pixel2.b, pixel2.a);
         } else {
@@ -60,6 +64,7 @@ function setup() {
         tactic: 'precision'
     });
     
+    // Kernel for performing colours invert
     const invertColourKernel = gpu.createKernel(function (frame, isEnabled) {
         const pixel = frame[this.thread.y][this.thread.x];
         if (isEnabled) {
@@ -74,6 +79,7 @@ function setup() {
         tactic: 'precision'
     });
     
+    // Kernel for performing grayscaling
     const grayscaleColourKernal = gpu.createKernel(function (frame, isEnabled) {
         const pixel = frame[this.thread.y][this.thread.x];
         if (isEnabled) {
@@ -89,6 +95,7 @@ function setup() {
         tactic: 'precision'
     });
     
+    // Kernel for performing image sharpening
     const sharpenKernel = gpu.createKernel(function (frame, isEnabled) {
         const pixel = frame[this.thread.y][this.thread.x];
         var col = [0, 0, 0];
@@ -130,6 +137,7 @@ function setup() {
         tactic: 'precision'
     });
     
+    // Kernel for performing image blurring
     const gaussianBlurKernel = gpu.createKernel(function (frame, isEnabled) {
         const pixel = frame[this.thread.y][this.thread.x];
         var col = [0, 0, 0];
@@ -206,6 +214,7 @@ function setup() {
         tactic: 'precision'
     });
     
+    // Kernel for performing edge detection
     const edgeDetectionKernel = gpu.createKernel(function (frame, isEnabled) {
         const pixel = frame[this.thread.y][this.thread.x];
         var gx = [0, 0, 0];
@@ -239,14 +248,15 @@ function setup() {
                 const a6 = frame[this.thread.y - 1][this.thread.x - 1];
                 const a7 = frame[this.thread.y - 1][this.thread.x];
                 const a8 = frame[this.thread.y - 1][this.thread.x + 1];
-                for (var i = 0; i < 3; i++) { // Compute the convolution for each of red [0], green [1] and blue [2]
+                for (var i = 0; i < 3; i++) { // Get the horizontal derivative approximation for each colour component
                     gx[i] = a0[i] * x0 + a1[i] * x1 + a2[i] * x2 + a3[i] * x3 + a4[i]* x4 
                                 + a5[i] * x5 + a6[i] * x6 + a7[i] * x7 + a8[i] * x8;
                 }
-                for (var i = 0; i < 3; i++) { // Compute the convolution for each of red [0], green [1] and blue [2]
+                for (var i = 0; i < 3; i++) { // Get the vertical derivative approximation for each colour component
                     gy[i] = a0[i] * y0 + a1[i] * y1 + a2[i] * y2 + a3[i] * y3 + a4[i]* y4 
                                 + a5[i] * y5 + a6[i] * y6 + a7[i] * y7 + a8[i] * y8;
                 }
+                // Compute the resultant gradient approximation 
                 this.color(Math.sqrt(gx[0] * gx[0] + gy[0] * gy[0]), Math.sqrt(gx[1] * gx[1] + gy[1] * gy[1]),
                             Math.sqrt(gx[2] * gx[2] + gy[2] * gy[2]) , pixel.a);
             } else {
@@ -262,11 +272,12 @@ function setup() {
         tactic: 'precision'
     });
             
+    // Kernel for performing encryption on pixel colours
     const encryptKernel = gpu.createKernel(function (frame, key, isEnabled) {
         const pixel = frame[this.thread.y][this.thread.x];
         var col = [0,0,0];
         if (isEnabled) {
-            for (var i=0; i < 3; i++) {
+            for (var i=0; i < 3; i++) { // Get the encrypted value for each colour component
                 col[i] = Math.round(key[3 * i] * pixel.r * 255 + key[3 * i + 1] * pixel.g * 255 + key[3 * i + 2] * pixel.b * 255) % 256 / 255;
 	        }
             this.color(col[0], col[1], col[2], pixel.a);
@@ -280,11 +291,12 @@ function setup() {
         tactic: 'precision'
     });
     
+    // Kernel for performing decryption on pixel colours
     const decryptKernel = gpu.createKernel(function (frame, key, isEnabled) {
         const pixel = frame[this.thread.y][this.thread.x];
         var col = [0,0,0];
         if (isEnabled) {
-            for (var i = 0; i < 3 ; i++) {
+            for (var i = 0; i < 3 ; i++) {// Get the decrypted value for each colour component
                 col[i] = Math.floor(key[3 * i] * pixel.r * 255 + key[3 * i + 1]
                             * pixel.g * 255 + key[3 * i + 2] * pixel.b * 255) % 256 / 255;
 	        }
@@ -299,6 +311,7 @@ function setup() {
         tactic: 'precision'
     });
     
+    // Kernel for converting texture into displayable output
     const textureToImageKernel = gpu.createKernel(function (frame) {
         const pixel = frame[this.thread.y][this.thread.x];
         this.color(pixel.r, pixel.g, pixel.b, pixel.a);
@@ -317,7 +330,7 @@ function setup() {
         
         if (enableGpu.checked){
             var t0 = performance.now();
-            
+            // Start of pipeline
             const outputStage1 = horizontalFlipKernal(videoElement, horizontalFlip.checked);
             const outputStage2 = verticalFlipKernal(outputStage1, verticalFlip.checked);
             const outputStage3 = sharpenKernel(outputStage2, sharpen.checked);
@@ -327,13 +340,13 @@ function setup() {
             const outputStage7 = edgeDetectionKernel(outputStage6, edgeDetection.checked);
             const outputStage8 = encryptKernel(outputStage7, getKey(0), encrypt.checked);
             const outputStage9 = decryptKernel(outputStage8, getKey(1), decrypt.checked);
-            
-            textureToImageKernel(outputStage9);
+            textureToImageKernel(outputStage9); // End of pipeline
             
             var t1 = performance.now();
             var delta = t1 - t0;
             timeTaken.innerHTML = delta.toFixed(3);
         } else {
+            // Prevents users from running more than one kernel at one time if GPU is disabled
             switch (getRadioValue()) {
                 case "horizontal-flip":
                     var t0 = performance.now();
@@ -428,6 +441,7 @@ function calcTimeTaken(delta) {
     timeTaken.innerHTML = delta;
 }
 
+// Toggle UI between GPU mode and CPU mode
 function toggleDiv(){
     if (enableGpu.checked == true){
         document.getElementById("gpu-controls").style.display = "block";
@@ -438,6 +452,7 @@ function toggleDiv(){
     }
 }
 
+// Get the current selected kernel from user's input
 function getRadioValue() {
     var elements = document.getElementsByName('filter');    
     for(i = 0; i < elements.length; i++) { 
@@ -447,6 +462,7 @@ function getRadioValue() {
     } 
 }
 
+// Get the key value used by Hill Cipher from user's input
 function getKey(type) {
     var elements;
     if (type == 0) {
